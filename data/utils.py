@@ -100,10 +100,10 @@ def get_magnitude(audio, spectrogram_size=256, mode="amplitude", pad=False, norm
         audio
     )
 
-    if mode in ["amplitude", "db"]:
-        mag, phase = torchaudio.functional.magphase(S)
-    else:
-        mag = S  # Power spectrogram is directly real-valued
+    # if mode in ["amplitude", "db"]:
+    #     mag, phase = torchaudio.functional.magphase(S)
+    # else:
+    #     mag = S  # Power spectrogram is directly real-valued
 
     if mode in ["amplitude", "db"]:
         mag = torch.abs(S)
