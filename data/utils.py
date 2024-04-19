@@ -3,7 +3,7 @@ import os
 import matplotlib.pyplot as plt
 import torch
 import torchaudio
-from torchaudio.functional import magphase
+# from torchaudio.functional import magphase
 from torchaudio.transforms import Spectrogram
 
 
@@ -102,6 +102,12 @@ def get_magnitude(audio, spectrogram_size=256, mode="amplitude", pad=False, norm
 
     if mode in ["amplitude", "db"]:
         mag, phase = torchaudio.functional.magphase(S)
+    else:
+        mag = S  # Power spectrogram is directly real-valued
+
+    if mode in ["amplitude", "db"]:
+        mag = torch.abs(S)
+        phase = torch.angle(S)
     else:
         mag = S  # Power spectrogram is directly real-valued
 
