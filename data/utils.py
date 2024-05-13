@@ -173,10 +173,12 @@ def find_files(directory, extensions=(".mp3", ".wav", ".flac")):
         directory (str, path-like):     Root path of the file search
         extensions (tuple):             Extensions that are allowed, the rest of the files will be ignored.
     """
+    # os.walk는 모든 하위 폴더를 검색
     for root, dirs, files in os.walk(directory):
         for f in files:
             filename = os.path.join(root, f)
             if filename.endswith(extensions):
+                # 하나씩 값을 전달. 결과적으로 (일종의 리스트 같은 반복 가능한)generator 형태로 전달된다.
                 yield filename
 
 
