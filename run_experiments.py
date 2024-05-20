@@ -16,6 +16,24 @@ from getmodel import get_model
 from trainer import Trainer
 
 if __name__ == "__main__":
+    """
+    run_experiments.py
+    파일 역할
+    
+    input
+    --clean_train_path(기본값 : .../train_clean-100)
+    --clean_val_path  (기본값 : .../test-clean)
+    --noise_train_path(기본값 : .../UrbanSound8k_16khz_4s/train)
+    --noise_val_path  (기본값 : .../UrbanSound8k_16khz_4s/test)
+    --keep_rate
+    --epochs
+    --lr
+    --gradient_clipping
+    --checkpoints_folder(기본값 : checkpoint)
+    --evaluations_folder(기본값 : ../PROJECT/EVALUATION)
+    --ground_truth_name (기본값 : Ground_truth_mixes_16kHz_4s)
+    --gpu
+    """
     ap = argparse.ArgumentParser()
 
     # Datasets
@@ -24,8 +42,9 @@ if __name__ == "__main__":
         required=False,
         default=os.path.join("datasets", "LibriSpeech_16kHz_4s", "train-clean-100"),
     )
+    'AudioProcessing\speech-denoising\datasets\UrbanSound8k\UrbanSound8K'
     ap.add_argument(
-        "--clean_val_path", required=False, default=os.path.join("datasets", "LibriSpeech_16kHz_4s", "test-clean")
+        "--clean_val_path", required=False, default=os.path.join("AudioProcessing", "speech-denoising", "datasets", "LibriSpeech_16kHz_4s", "test-clean")
     )
     ap.add_argument(
         "--noise_train_path", required=False, default=os.path.join("datasets", "UrbanSound8K_16kHz_4s", "train")
@@ -50,6 +69,7 @@ if __name__ == "__main__":
 
     args = ap.parse_args()
 
+    # assert : assert 조건, "오류 메시지". 즉, 폴더가 있는지 확인하고 없으면 오류 메시지 출력
     assert os.path.isdir(args.checkpoints_folder), "The specified checkpoints folder does not exist"
     assert os.path.isdir(args.evaluations_folder), "The specified evaluations folder does not exist"
     assert os.path.isdir(
