@@ -10,7 +10,14 @@ def double_conv(in_channels, out_channels, kernel_size, padding):
         nn.ReLU(inplace=True),
     )
 
+# UNet 모델을 구현했다(UNet은 기존에 존재했던 모델)
+"""
+UNet 설명
+https://pasus.tistory.com/204
+https://wikidocs.net/148870
 
+UNet은 이미지 세그멘테이션 작업에 주로 사용되는 딥러닝 아키텍처로, 이미지의 각 픽셀이 어떤 클래스에 속하는지를 분류한다.
+"""
 class UNet(nn.Module):
     def __init__(
         self,

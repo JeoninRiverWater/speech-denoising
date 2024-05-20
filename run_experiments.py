@@ -107,9 +107,13 @@ if __name__ == "__main__":
         # mode=data_mode,
     )
 
-    #
-    # Experiments
-    #
+    # args.epochs의 default값은 10 args.lr의 default값은 1e-4(=0.0001)이다. lr은 주로 학습률을 의미한다.
+    # UNet, ConvTasNet, TransUNet은 모두 실제로 존재하는 모델이다.
+    """
+    UNet은 이미지 세그멘테이션 작업에 주로 사용되는 딥러닝 아키텍처입니다. 이미지의 각 픽셀이 어떤 클래스에 속하는지를 분류하는 작업을 수행합니다. 
+    이를 통해 이미지 내의 특정 객체나 구조를 정확하게 식별하고 위치를 파악할 수 있습니다. 
+    특히, 의료 영상 처리와 같이 정확한 위치 정보가 중요한 분야에서 뛰어난 성능을 보여줍니다.
+    """
     experiments = [
         {"model": "UNet", "epochs": args.epochs, "lr": args.lr, "batch_size": 16},
         {"model": "UNetDNP", "epochs": args.epochs, "lr": args.lr, "batch_size": 16},
@@ -122,16 +126,18 @@ if __name__ == "__main__":
         # Select the model to be used for training
         training_utils_dict = get_model(experiment["model"])
 
-        model = training_utils_dict["model"]
-        loss_fn = training_utils_dict["loss_fn"]
-        loss_mode = training_utils_dict["loss_mode"]
+        model = training_utils_dict["model"] # UNet
+        loss_fn = training_utils_dict["loss_fn"] # F.mse_loss(평균 제곱 오차 손실 함수)
+        loss_mode = training_utils_dict["loss_mode"] # 'min'
 
-        data_mode = training_utils_dict["data_mode"]
+        data_mode = training_utils_dict["data_mode"] # 'amplitude'
         train_data.mode = data_mode
         val_data.mode = data_mode
 
+        # data_mode가 'amplitude'이므로 "mse"
         loss_name = "sisdr" if data_mode == "time" else "mse"
 
+        # "UNet_mse_"
         model_name = f"{experiment['model']}_{loss_name}_{experiment['lr']}_{experiment['epochs']}_epochs"
         checkpoint_name = os.path.join(args.checkpoints_folder, f"{model_name}.tar")
 

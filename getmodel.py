@@ -39,6 +39,7 @@ default_params = {
     "SepFormer": {},
 }
 
+# 적어도 이 프로그램에서 parameters를 지정한 내용은 없다.
 def get_model(name, parameters=None):
     if not parameters:
         parameters = default_params[name]
@@ -46,6 +47,7 @@ def get_model(name, parameters=None):
     if name == "UNet":
         model = UNet(**parameters)
         data_mode = "amplitude"
+        # mse_loss는 평균 제곱 오차 손실 함수이다. f_mse_loss_example.py에 예시 있음.
         loss_fn = F.mse_loss
         loss_mode = "min"
 
