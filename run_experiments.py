@@ -42,7 +42,7 @@ if __name__ == "__main__":
         required=False,
         default=os.path.join("datasets", "LibriSpeech_16kHz_4s", "train-clean-100"),
     )
-    'AudioProcessing\speech-denoising\datasets\UrbanSound8k\UrbanSound8K'
+    
     ap.add_argument(
         "--clean_val_path", required=False, default=os.path.join("AudioProcessing", "speech-denoising", "datasets", "LibriSpeech_16kHz_4s", "test-clean")
     )
@@ -76,12 +76,11 @@ if __name__ == "__main__":
         os.path.join(args.evaluations_folder, args.ground_truth_name)
     ), "The specified ground truth folder does not exist"
 
-    #
-    # Set the GPU
-    #
+    # GPU 설정. 여기서 args.gpu의 기본값이 "-1"이므로 gpu 실행을 비활성화한다.
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"  # see issue #152
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
 
+    # cpu와 gpu 중 사용할 것을 출력한다. gpu의 기본값은 -1이기에 보통 cpu가 출력된다.
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device} ({args.gpu})")
 
@@ -90,6 +89,12 @@ if __name__ == "__main__":
     #
     from data import AudioDirectoryDataset, NoiseMixerDataset
 
+    # args.keep_rate의 기본값은 1.0이다.
+    """
+    AudioDirectoryDataset
+    root에서 오디오 파일을 keep_rate 비율만큼 가져온다. 
+    여기서는 clean_train_path의 모든 데이터를 clean_dataset.filenames에 리스트로 저장된다.
+    """
     train_data = NoiseMixerDataset(
         clean_dataset=AudioDirectoryDataset(root=args.clean_train_path, keep_rate=args.keep_rate),
         noise_dataset=AudioDirectoryDataset(root=args.noise_train_path, keep_rate=args.keep_rate),

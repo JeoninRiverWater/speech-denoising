@@ -14,9 +14,11 @@ class AudioDirectoryDataset(Dataset):
 
     def __init__(self, root, extensions=(".mp3", ".wav", ".flac"), keep_rate=1.0):
         self.filenames = list(self._find_files(root, extensions))
+        # keep_rate가 0과 1 사이의 값이면, 해당 비율만큼 무작위로 데이터를 불러온다.
         if keep_rate > 0 and keep_rate < 1.0:
             self.filenames = np.random.choice(self.filenames, int(len(self.filenames) * keep_rate))
 
+    # utils.py의 fine_files과 완전히 똑같음
     def _find_files(self, root, extensions=(".mp3", ".wav", ".flac")):
         for base, dirs, files in os.walk(root):
             for f in files:
