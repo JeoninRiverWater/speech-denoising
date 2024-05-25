@@ -15,6 +15,8 @@ from evaluate import predict_evaluation_data
 from getmodel import get_model
 from trainer import Trainer
 
+from data_split import split_train_test
+
 if __name__ == "__main__":
     """
     run_experiments.py
@@ -67,6 +69,8 @@ if __name__ == "__main__":
     # GPU setup
     ap.add_argument("--gpu", default="-1")
 
+    ap.add_argument("data_split", action="store_true", default=True)
+
     args = ap.parse_args()
 
     # assert : assert 조건, "오류 메시지". 즉, 폴더가 있는지 확인하고 없으면 오류 메시지 출력
@@ -83,6 +87,15 @@ if __name__ == "__main__":
     # cpu와 gpu 중 사용할 것을 출력한다. gpu의 기본값은 -1이기에 보통 cpu가 출력된다.
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device} ({args.gpu})")
+
+    if not (os.path.isdir(args.noise_train_path) and os.path.isdir(args.noise_test_path)) or args.data_split: 
+        origin_path = 'AudioProcessing/speech-denoising/datasets/UrbanSound8k_16kHz_4s'
+        output_path = 'AudioProcessing/speech-denoising/datasets/UrbanSound8k_16kHz_4s_splited'
+        train_ratio = 0.7
+        args.noise_train_path = output_path+'/train'
+        args.noise_test_path = output_path+'/test'
+        split_train_test(origin_path, output_path, train_ratio, delete_original = False)
+    
 
     #
     # Initialize the datasets
