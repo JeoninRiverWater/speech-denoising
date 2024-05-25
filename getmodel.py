@@ -54,6 +54,7 @@ def get_model(name, parameters=None):
     if name == "UNetDNP":
         model = UNetDNP(**parameters)
         data_mode = "time"
+        # 클래스 간 불균형이 클 때 사용된다고 한다.
         loss_fn = ScaleInvariantSDRLoss
         loss_mode = "max"
 

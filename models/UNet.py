@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 
 
+# 두 번의 컴볼루션 연산과 ReLU 활성화 함수 사용
 def double_conv(in_channels, out_channels, kernel_size, padding):
     return nn.Sequential(
         nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=kernel_size, padding=padding),
@@ -31,7 +32,7 @@ class UNet(nn.Module):
         upsample_scale_factor=2,
         apply_masks=True,
     ):
-        super().__init__()
+        super().__init__() # nn.Module의 모든 기능을 사용할 수 있게 함.
 
         self.depth = unet_depth
         self.n_class = n_class
