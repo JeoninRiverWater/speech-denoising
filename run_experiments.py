@@ -96,8 +96,6 @@ if __name__ == "__main__":
         args.noise_train_path = output_path+'/train'
         args.noise_test_path = output_path+'/test'
         split_train_test(origin_path, output_path, train_ratio, delete_original = False)
-    else : 
-        print('test')
     
 
     #
@@ -148,7 +146,7 @@ if __name__ == "__main__":
         # Select the model to be used for training
         training_utils_dict = get_model(experiment["model"])
 
-        model = training_utils_dict["model"] # UNet
+        model = training_utils_dict["model"] # UNet class
         loss_fn = training_utils_dict["loss_fn"] # F.mse_loss(평균 제곱 오차 손실 함수)
         loss_mode = training_utils_dict["loss_mode"] # 'min'
 
@@ -172,6 +170,7 @@ if __name__ == "__main__":
         print("Learning rate:", experiment["lr"])
 
         # Start training
+        # device는 사실상 cpu이다.
         model = model.to(device)
 
         if not os.path.isfile(checkpoint_name):
@@ -185,7 +184,7 @@ if __name__ == "__main__":
                 lr=experiment["lr"],
                 loss_fn=loss_fn,
                 loss_mode=loss_mode,
-                gradient_clipping=args.gradient_clipping,
+                gradient_clipping=args.gradient_clipping, # 보통 args.gradient_clipping은 False를 가진다.
             )
 
         # Generate the folder for the model predictions

@@ -26,7 +26,18 @@ class Trainer:
         assert checkpoint_name.endswith(".tar"), "The checkpoint file must have .tar extension"
         self.checkpoint_name = checkpoint_name
         self.display_freq = display_freq
-
+    """
+    history = tr.fit(
+    model,
+    device,
+    epochs=experiment["epochs"],
+    batch_size=experiment["batch_size"],
+    lr=experiment["lr"],
+    loss_fn=loss_fn,
+    loss_mode=loss_mode,
+    gradient_clipping=args.gradient_clipping,
+    )
+    """
     def fit(
         self,
         model,
@@ -38,14 +49,16 @@ class Trainer:
         optimizer=optim.Adam,
         loss_fn=F.mse_loss,
         loss_mode="min",
-        gradient_clipping=True,
+        gradient_clipping=True, 
     ):
         # Get the device placement and make data loaders
         self.device = device
+        # 보통 device는 cpu이기에 {}가 된다.
         kwargs = {"num_workers": 1, "pin_memory": True} if device == "cuda" else {}
         self.train_loader = torch.utils.data.DataLoader(self.train_data, batch_size=batch_size, **kwargs)
         self.val_loader = torch.utils.data.DataLoader(self.val_data, batch_size=batch_size, **kwargs)
 
+        # torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
         self.optimizer = optimizer(model.parameters(), lr=lr, weight_decay=weight_decay)
         self.loss_fn = loss_fn
         self.loss_mode = loss_mode
@@ -66,6 +79,7 @@ class Trainer:
             previous_epochs = checkpoint["epoch"]
             best_loss = checkpoint["best_loss"]
         else:
+            # 처음 실행하면 checkpoint 파일이 없다. # 이미 실행하면 있는지 불명
             print(f"No checkpoint found, using default parameters...")
 
         for epoch in range(previous_epochs + 1, epochs + 1):
