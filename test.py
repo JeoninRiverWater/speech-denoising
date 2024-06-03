@@ -1,5 +1,4 @@
-kwang = {}
+import random
 
-print(kwang)
-print(*kwang)
-print(**kwang)
+li = [i for i in range(10)]
+print(random.choice(li))
