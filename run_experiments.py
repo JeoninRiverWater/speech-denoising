@@ -157,8 +157,9 @@ if __name__ == "__main__":
         # data_mode가 'amplitude'이므로 "mse"
         loss_name = "sisdr" if data_mode == "time" else "mse"
 
-        # "UNet_mse_"
+        # "UNet_mse_0.0001_5_epochs"
         model_name = f"{experiment['model']}_{loss_name}_{experiment['lr']}_{experiment['epochs']}_epochs"
+        # checkpoints_folder의 UNet_mse_0.0001_5_epochs.tar에 저장
         checkpoint_name = os.path.join(args.checkpoints_folder, f"{model_name}.tar")
 
         print("-" * 50)
@@ -184,7 +185,7 @@ if __name__ == "__main__":
                 lr=experiment["lr"],
                 loss_fn=loss_fn,
                 loss_mode=loss_mode,
-                gradient_clipping=args.gradient_clipping, # 보통 args.gradient_clipping은 False를 가진다.
+                gradient_clipping=args.gradient_clipping, # default값은 False.
             )
 
         # Generate the folder for the model predictions

@@ -31,7 +31,10 @@ def predict_spectrogram(audio, sr, length_seconds, model):
             seg_audio, spectrogram_size=256, mode="amplitude", normalize=False, pad=True, return_phase=True
         )
         seg_magnitude = seg_magnitude.unsqueeze(0)  # Add batch dimension
-        out_magnitude = model(seg_magnitude.cuda())  # Use the model
+        if torch.cuda.is_available() : 
+            out_magnitude = model(seg_magnitude.cuda())   # Use the model
+        else : 
+            out_magnitude = model(seg_magnitude.to("cpu"))
         out_magnitude = out_magnitude.squeeze()  # Remove batch dimension
         out_magnitude = out_magnitude.cpu().detach()
 

@@ -41,6 +41,6 @@ def split_train_test(directory, output_directory, train_ratio=0.8, delete_origin
 
 # 사용 예시
 if __name__ == '__main__' : 
-    directory = 'AudioProcessing/speech-denoising/datasets/UrbanSound8k_16kHz_4s_splited'
-    output_directory = 'AudioProcessing/speech-denoising/datasets/UrbanSound8k_16kHz_4s_splited-eval_test'
-    split_train_test(directory, output_directory, 0.7, False)
+    directory = 'AudioProcessing/speech-denoising/datasets/UrbanSound8k_16kHz_4s_splited-eval_test/train'
+    output_directory = 'AudioProcessing/speech-denoising/datasets/UrbanSound8k_16kHz_4s_splited-eval_test/train2'
+    split_train_test(directory, output_directory, 0.5, False)

@@ -42,6 +42,7 @@ default_params = {
 # 적어도 이 프로그램에서 parameters를 지정한 내용은 없다.
 def get_model(name, parameters=None):
     if not parameters:
+        # name은 각각 UNet, UNetENP, ConvTasNet, TransUNet이다.
         parameters = default_params[name]
 
     if name == "UNet":

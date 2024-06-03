@@ -11,6 +11,7 @@ from .utils import get_magnitude, zero_pad
 
 class NoiseMixerDataset(Dataset):
     def __init__(
+        # run_experiments에서는 clean_dataset과 noise_dataset만 지정
         self, clean_dataset, noise_dataset, min_snr=0, max_snr=18, mode="time", spectrogram_size=256, eps=1e-6
     ):
         """
