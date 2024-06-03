@@ -45,11 +45,11 @@ class Trainer:
         epochs=10,
         batch_size=16,
         lr=0.001,
-        weight_decay=1e-5,
-        optimizer=optim.Adam,
+        weight_decay=1e-5, # 지정 X
+        optimizer=optim.Adam, # 지정 X
         loss_fn=F.mse_loss,
         loss_mode="min",
-        gradient_clipping=True, 
+        gradient_clipping=True, # False
     ):
         # Get the device placement and make data loaders
         self.device = device

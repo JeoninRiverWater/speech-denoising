@@ -103,8 +103,8 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
 
     # Paths
-    ap.add_argument("--evaluation_path", required=True)
-    ap.add_argument("--output_path", required=True)
+    ap.add_argument("--evaluation_path", required=True, default="AudioProcessing/speech-denoising/evaluation")
+    ap.add_argument("--output_path", required=True, default="AudioProcessing/test")
     ap.add_argument("--clean_path", required=False)
     ap.add_argument("--noise_path", required=False)
 
@@ -117,12 +117,16 @@ if __name__ == "__main__":
 
     # Model to use
     ap.add_argument("--model", choices=["UNet", "UNetDNP", "ConvTasNet", "TransUNet", "SepFormer"])
-    ap.add_argument("--checkpoint_name", required=True, help="File with .tar extension")
+    ap.add_argument("--checkpoint_name", required=True, help="File with .tar extension", default="AudioProcessing/speech-denoising/checkpoints/UNet_mse_0.0001_5_epochs.tar")
 
     # GPU setup
     ap.add_argument("--gpu", default="-1")
 
     args = ap.parse_args()
+
+    print(args.evaluation_path)
+    print(args.output_path)
+    print(args.checkpoint_name)
 
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"  # see issue #152
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu

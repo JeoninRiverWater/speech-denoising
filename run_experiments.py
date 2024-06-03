@@ -42,17 +42,17 @@ if __name__ == "__main__":
     ap.add_argument(
         "--clean_train_path",
         required=False,
-        default=os.path.join("datasets", "LibriSpeech_16kHz_4s", "train-clean-100"),
+        default=os.path.join("AudioProcessing", "speech-denoising", "datasets", "LibriSpeech_16kHz_4s", "dev-clean-test"),
     )
     
     ap.add_argument(
-        "--clean_val_path", required=False, default=os.path.join("AudioProcessing", "speech-denoising", "datasets", "LibriSpeech_16kHz_4s", "test-clean")
+        "--clean_val_path", required=False, default=os.path.join("AudioProcessing", "speech-denoising", "datasets", "LibriSpeech_16kHz_4s", "test-clean-test")
     )
     ap.add_argument(
-        "--noise_train_path", required=False, default=os.path.join("AudioProcessing", "speech-denoising", "datasets", "UrbanSound8K_16kHz_4s_splited", "train")
+        "--noise_train_path", required=False, default=os.path.join("AudioProcessing", "speech-denoising", "datasets", "UrbanSound8K_16kHz_4s_splited_test", "train")
     )
     ap.add_argument(
-        "--noise_val_path", required=False, default=os.path.join("AudioProcessing", "speech-denoising", "datasets", "UrbanSound8K_16kHz_4s_splited", "test")
+        "--noise_val_path", required=False, default=os.path.join("AudioProcessing", "speech-denoising", "datasets", "UrbanSound8K_16kHz_4s_splited_test", "test")
     )
     ap.add_argument("--keep_rate", default=1.0, type=float)
 
