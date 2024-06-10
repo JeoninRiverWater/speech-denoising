@@ -1,0 +1,63 @@
+프로그램 실행 과정
+0. 실행 준비
+- github 프로젝트를 다운받는다(zip 파일로 받아도 되고, git clone을 이용해도 된다).
+git 다운로드 명령어 $ git clone https://github.com/hmartelb/speech-denoising.git
+
+- 필요한 라이브러리를 다운로드받는다.
+pip install -r requirements.txt
+(torchsummary, torchinfo, torch_summary, torch, torchvision, torchaudio...) 등이 포함
+
+데이터셋 다운로드 - 학습을 위한 데이터를 다운로드받는다.
+- LibriSpeech 다운로드 
+다운로드 홈페이지 https://www.openslr.org/12
+dev-clean, dev-other, test-clean, test-other, train-clean-100, train-clean-360, train-clean-500을 다운로드받는다.
+
+명령어를 사용해서 다운로드
+
+import torchaudio
+torchaudio.datasets.LIBRISPEECH(root="path/to/download", url="data_name", download=True)
+root에는 데이터가 다운로드될 경로를, url에는 다운로드받을 데이터 이름을 작성한다.
+url에는 "dev-clean", "dev-other", "test-clean", "test-other", "train-clean-100", "train-clean-360" and "train-other-500"과 같이 작성한다.
+*웹사이트에서 직접 다운로드받는것보다 훨씬 빠르지만, 메모리 사용량이 많다.
+
+* 사용자의 명령에 따라 모든 데이터를 사용하지는 않는다.
+
+- UrbanSound8k 다운로드
+다운로드 링크 https://goo.gl/8hY5ER
+* 들어가는 즉시 다운로드가 시작된다.
+
+
+1. 데이터 전처리하기
+data/resample_datasets.py 파일을 이용해 UrbanSound8k를 수정한다.
+이 스크립트는 데이터 로딩 속도를 높이기 위해 목표 샘플링 속도(기본값: 16kHz)를 사용하고 모노로 다운믹스된 미리 계산된 데이터 세트 버전을 생성합니다. # readme 번역본, 이후에 수정
+명령어 : python resample_dataset.py --dataset_path <path-to-UrbanSound8K>
+                                  --resampled_path <path-to-UrbanSound8K_16kHz>
+                                  --target_sr 16000
+* resampled_path는 수정된 데이터 경로로, 다운로드받을 경로를 입력하면 된다.
+
+slice_dataset.py 파일을 이용해 데이터를 동일한 크기로 자른다. # 이후에 수정
+python slice_dataset.py  --dataset_path <path-to-dataset_16kHz>
+                         --sliced_path <path-to-dataset_16kHz_sliced>
+                         --length_seconds 4
+                         [--pad_last] 
+# sliced_path 역시 수정된 데이터 경로로, 다운로드받을 경로를 입력하면 된다.
+
+2. 모델 학습시키기
+run_experiments.py를 실행한다.
+--clean_train_path, --clean_val_path ,--noise_train_path, --noise_val_path 지정한 뒤 실행한다.
+실행 결과 /AudioProcessing/speech-denoising/checkpoints에 .tar 파일이 만들어진다.(example : UNet_mse_0.0001_10_epochs.tar)
+
+이때 실행을 위해 오랜 시간이 소요됨에 유의한다.
+(UNet 이용해서 학습 데이터 321개, 확인 데이터 218개 10번 학습하는 데 11시간 소요)
+
+3. 모델 평가하기
+evaluate.py를 실행한다.
+python evaluate.py  --evaluation_path <확인용 데이터 경로>
+                    --output_path <분리 결과를 저장할 경로>
+                    --clean_path <음성 데이터>
+                    --noise_path <소음 데이터>
+                    --model <모델(UNet, UNetDNP, ConvTasNet, TransUNet)>
+                    --checkpoint_name <학습 결과 데이터(run_experiments.py 실행 결과)>
+
+이 결과 evaluation_path에 음성+소음 혼합 데이터가 생성되고,
+output_path에 이 데이터를 다시 음성 데이터와 혼합 데이터로 나눈 결과가 만들어진다.

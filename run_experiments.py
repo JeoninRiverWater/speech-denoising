@@ -42,17 +42,17 @@ if __name__ == "__main__":
     ap.add_argument(
         "--clean_train_path",
         required=False,
-        default=os.path.join("AudioProcessing", "speech-denoising", "datasets", "LibriSpeech_16kHz_4s", "dev-clean-test"),
+        default=os.path.join("AudioProcessing", "speech-denoising", "datasets", "LibriSpeech_16kHz_4s", "dev-clean"),
     )
     
     ap.add_argument(
-        "--clean_val_path", required=False, default=os.path.join("AudioProcessing", "speech-denoising", "datasets", "LibriSpeech_16kHz_4s", "test-clean-test")
+        "--clean_val_path", required=False, default=os.path.join("AudioProcessing", "speech-denoising", "datasets", "LibriSpeech_16kHz_4s", "test-clean")
     )
     ap.add_argument(
-        "--noise_train_path", required=False, default=os.path.join("AudioProcessing", "speech-denoising", "datasets", "UrbanSound8K_16kHz_4s_splited_test", "train")
+        "--noise_train_path", required=False, default=os.path.join("AudioProcessing", "speech-denoising", "datasets", "UrbanSound8K_16kHz_4s_splited", "train")
     )
     ap.add_argument(
-        "--noise_val_path", required=False, default=os.path.join("AudioProcessing", "speech-denoising", "datasets", "UrbanSound8K_16kHz_4s_splited_test", "test")
+        "--noise_val_path", required=False, default=os.path.join("AudioProcessing", "speech-denoising", "datasets", "UrbanSound8k_16kHz_4s_splited", "test")
     )
     ap.add_argument("--keep_rate", default=1.0, type=float)
 
@@ -135,10 +135,10 @@ if __name__ == "__main__":
     TransUNet은 Transformer 기반의 인코더와 UNet 기반의 디코더를 이용한다. 마찬가지로 객체의 경계를 감지하고 분할한다.
     """
     experiments = [
-        {"model": "UNet", "epochs": args.epochs, "lr": args.lr, "batch_size": 16},
+        # {"model": "UNet", "epochs": args.epochs, "lr": args.lr, "batch_size": 16},
         {"model": "UNetDNP", "epochs": args.epochs, "lr": args.lr, "batch_size": 16},
-        {"model": "ConvTasNet", "epochs": args.epochs, "lr": args.lr, "batch_size": 8},
-        {"model": "TransUNet", "epochs": args.epochs, "lr": args.lr, "batch_size": 4},
+        # {"model": "ConvTasNet", "epochs": args.epochs, "lr": args.lr, "batch_size": 8},
+        # {"model": "TransUNet", "epochs": args.epochs, "lr": args.lr, "batch_size": 4},
     ]
 
     for experiment in experiments:
