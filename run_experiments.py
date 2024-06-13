@@ -136,9 +136,9 @@ if __name__ == "__main__":
     """
     experiments = [
         # {"model": "UNet", "epochs": args.epochs, "lr": args.lr, "batch_size": 16},
-        {"model": "UNetDNP", "epochs": args.epochs, "lr": args.lr, "batch_size": 16},
+        # {"model": "UNetDNP", "epochs": args.epochs, "lr": args.lr, "batch_size": 16},
         # {"model": "ConvTasNet", "epochs": args.epochs, "lr": args.lr, "batch_size": 8},
-        # {"model": "TransUNet", "epochs": args.epochs, "lr": args.lr, "batch_size": 4},
+        {"model": "TransUNet", "epochs": args.epochs, "lr": args.lr, "batch_size": 4},
     ]
 
     for experiment in experiments:
