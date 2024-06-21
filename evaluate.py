@@ -106,10 +106,11 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
 
     # Paths
-    ap.add_argument("--evaluation_path", default="AudioProcessing/evaluation_data")
-    ap.add_argument("--output_path", default="AudioProcessing/result/TransNet")
-    ap.add_argument("--clean_path", required=False, default="AudioProcessing/speech-denoising/datasets/LibriSpeech_16kHz_4s/dev-clean-eval_test")
-    ap.add_argument("--noise_path", required=False, default="AudioProcessing/speech-denoising/datasets/UrbanSound8k_16kHz_4s_splited-eval_test")
+    ap.add_argument("--evaluation_path", default="AudioProcessing/evaluation_new_data")
+    ap.add_argument("--output_path", default="AudioProcessing/result/UNetDNP_new_eval")
+    # ap.add_argument("--clean_path", required=False, default="AudioProcessing/speech-denoising/datasets/dev-clean-eval")
+    ap.add_argument("--clean_path", required=False, default="AudioProcessing/speech-denoising/datasets/train-clean-100-eval")
+    ap.add_argument("--noise_path", required=False, default="AudioProcessing/speech-denoising/datasets/UrbanSound8k_16kHz_4s_splited-eval")
 
     # SNR config
     ap.add_argument("--min_snr", default=0)
@@ -119,8 +120,8 @@ if __name__ == "__main__":
     ap.add_argument("--sr", default=16000)
 
     # Model to use
-    ap.add_argument("--model", choices=["UNet", "UNetDNP", "ConvTasNet", "TransUNet", "SepFormer"], default="TransUNet")
-    ap.add_argument("--checkpoint_name", help="File with .tar extension", default="AudioProcessing/speech-denoising/checkpoints/TransUNet_mse_0.0001_5_epochs.tar")
+    ap.add_argument("--model", choices=["UNet", "UNetDNP", "ConvTasNet", "TransUNet", "SepFormer"], default="UNetDNP")
+    ap.add_argument("--checkpoint_name", help="File with .tar extension", default="AudioProcessing/speech-denoising/checkpoints/UNetDNP_sisdr_0.0001_10_epochs.tar")
 
     # GPU setup
     ap.add_argument("--gpu", default="-1")
