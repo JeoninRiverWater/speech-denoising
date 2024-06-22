@@ -57,6 +57,10 @@ class Trainer:
         kwargs = {"num_workers": 1, "pin_memory": True} if device == "cuda" else {}
         self.train_loader = torch.utils.data.DataLoader(self.train_data, batch_size=batch_size, **kwargs)
         self.val_loader = torch.utils.data.DataLoader(self.val_data, batch_size=batch_size, **kwargs)
+        """
+        device가 "cuda"이면 >>> self.train_loader = torch.utils.data.DataLoader(self.train_data, batch_size=batch_size, num_workers=1, pin_memory=True)
+        그렇지 않으면 >>> self.train_loader = torch.utils.data.DataLoader(self.train_data, batch_size=batch_size)
+        """
 
         # torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
         self.optimizer = optimizer(model.parameters(), lr=lr, weight_decay=weight_decay)
