@@ -17,7 +17,7 @@ def main() :
     dataset = MyDataset()
 
     # DataLoader 인스턴스 생성
-    dataloader = DataLoader(dataset, batch_size=10, shuffle=True, num_workers=2)
+    dataloader = DataLoader(dataset, batch_size=10, shuffle=False)
 
     # DataLoader 사용 예시
     for batch in dataloader:
