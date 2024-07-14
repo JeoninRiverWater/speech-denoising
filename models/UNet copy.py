@@ -48,6 +48,7 @@ class UNet(nn.Module):
                 )
                 for i in range(unet_depth)
             ]
+            [double_conv()] + [double_conv() for i in range(unet_depth)]
         )
 
         self.maxpool = nn.MaxPool2d(maxpool_kernel_size)
