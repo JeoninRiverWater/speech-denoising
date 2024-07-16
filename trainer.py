@@ -62,13 +62,18 @@ class Trainer:
         그렇지 않으면 >>> self.train_loader = torch.utils.data.DataLoader(self.train_data, batch_size=batch_size)
         """
 
+        # model은 UNet.py의 UNet class로, 이곳에서 torch.nn.Module을 상속받아 super.__init__()을 사용.
+        # 즉, model.parameters는 torch.nn.Module.parameters()를 의미한다.
+        # model.parameters는 모듈의 파라미터를 반환한다.
         # torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
         self.optimizer = optimizer(model.parameters(), lr=lr, weight_decay=weight_decay)
+        # loss_fn = F.mse_loss이다. 아마 손실함수를 의미하는듯
         self.loss_fn = loss_fn
-        self.loss_mode = loss_mode
-        self.gradient_clipping = gradient_clipping
+        self.loss_mode = loss_mode # "min"
+        self.gradient_clipping = gradient_clipping # 사용자가 지정하지 않으면 항상 false이다.
         self.history = {"train_loss": [], "test_loss": []}
 
+        # 도중에 중단된 내용을 다시 불러오기 위해 사용되는 변수
         previous_epochs = 0
         best_loss = None
 
@@ -116,6 +121,7 @@ class Trainer:
 
         return self.history
 
+    # 이 파일에만 사용하는듯
     def train(self, model):
         total_loss = 0.0
         model.train()
